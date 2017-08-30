@@ -1,0 +1,28 @@
+{
+  "name": "json-schema-validator",
+  "main": "build/index.js",
+  "version": "1.0.0",
+  "description": "Json Schema Validator",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$"
+  },
+  "dependencies": {},
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^8.0.19",
+    "jest": "^20.0.4",
+    "ts-jest": "^20.0.13",
+    "typescript": "^2.4.2"
+  }
+}
