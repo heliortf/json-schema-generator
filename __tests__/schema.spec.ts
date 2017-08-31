@@ -1,5 +1,5 @@
 import 'jest';
-import { Schema } from './../src/include';
+import { Schema, SchemaProperty } from './../src/include';
 
 describe("Schema", () => {
 
@@ -44,7 +44,7 @@ describe("Schema", () => {
 
     it("should add definitions", () => {        
         expect(s.getDefinitions()).toHaveLength(0);
-        
+
         let d = new Schema();
         d.setType("object");
         d.addProperty(new SchemaProperty({

@@ -1,5 +1,5 @@
 import 'jest';
-import { Schema } from './../src/include';
+import { Schema, SchemaProperty } from './../src/include';
 
 describe("Schema Property", () => {
 
