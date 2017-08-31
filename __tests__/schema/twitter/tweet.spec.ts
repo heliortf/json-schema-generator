@@ -122,7 +122,7 @@ describe("Tweet Schema", () => {
             "type"      : "string",
             "required"  : true
         });
-
+        s.addProperty(p);
         expect(s.getProperty("id_str")).not.toBe(false);
     });
 

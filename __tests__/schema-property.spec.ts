@@ -28,7 +28,7 @@ describe("Schema Property", () => {
     it("should permit set enum type", () => {
         s.setType("enum", ["first_value", "second_value"]);
         expect(s.getType()).toBe("enum");
-        expect(s.getEnum()).toBe(["first_value", "second_value"]);
+        expect(s.getEnum().join(",")).toBe(["first_value", "second_value"].join(","));
     });
 
     it("should permit set as required", () => {

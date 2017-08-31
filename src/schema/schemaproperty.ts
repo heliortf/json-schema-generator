@@ -45,9 +45,26 @@ export class SchemaProperty {
         this.name = "";
         this.type = "string";
 
+        this.setValues(params);
+    }
+
+    setValues(params : any){
         if(typeof params != 'undefined'){
+
             if(typeof params['name'] == 'string' && params['name'] != ''){
                 this.setName(params['name']);
+            }
+
+            if(typeof params['format'] == 'string' && params['format'] != ''){
+                this.setFormat(params['format']);
+            }
+
+            if(typeof params['type'] == 'string' && params['type'] != ''){
+                this.setType(params['type']);
+            }
+
+            if(typeof params['required'] == 'boolean'){
+                this.setRequired(params['required']);
             }
         }
     }

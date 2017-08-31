@@ -54,6 +54,10 @@ export class Schema {
         return this.type;
     }
 
+    setDescription(description : string){
+        this.description = description;
+    }
+
     getDescription(){
         return this.description;
     }
@@ -82,6 +86,10 @@ export class Schema {
         }
 
         return false;
+    }
+
+    addDefinition(definition : Schema){
+        this.definitions.push(definition);
     }
 
     getDefinitions(){
