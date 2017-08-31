@@ -76,6 +76,8 @@ import { Schema, SchemaProperty } from './../../../src/include';
       "urls": [],
       "user_mentions": []
     },
+
+    // ta aqui
     "favorited": false,
     "retweeted": false,
     "lang": "en"
@@ -144,6 +146,7 @@ describe("Tweet Schema", () => {
         expect(sourceProperty.getName()).toBe("source");        
     });
 
+
     it("should define truncated property", () => {
         s.addProperty({ "name" : "truncated", type: "boolean", required: true });
         
@@ -153,15 +156,62 @@ describe("Tweet Schema", () => {
         expect(p.getType()).toBe("boolean");
     });
 
+
     it("should define in_reply_to_status_id property", () => {
         s.addProperty({ "name" : "in_reply_to_status_id", type: "number", required: false });
         let p = s.getProperty("in_reply_to_status_id");
         expect(p).not.toBe(false);        
     });
 
+
     it("should define in_reply_to_status_id_str property", () => {
         s.addProperty({ "name" : "in_reply_to_status_id_str", type: "string", required : false });
         let p = s.getProperty("in_reply_to_status_id_str");
+        expect(p).not.toBe(false);        
+    });
+
+    
+    it("should define in_reply_to_user_id property", () => {
+        s.addProperty({ "name" : "in_reply_to_user_id", type: "number", required : false });
+        let p = s.getProperty("in_reply_to_user_id");
+        expect(p).not.toBe(false);        
+    });
+    
+    
+    
+    it("should define in_reply_to_user_id_str property", () => {
+        s.addProperty({ "name" : "in_reply_to_user_id_str", type: "string", required : false });
+        let p = s.getProperty("in_reply_to_user_id_str");
+        expect(p).not.toBe(false);        
+    });
+
+    
+    
+    it("should define in_reply_to_screen_name property", () => {
+        s.addProperty({ "name" : "in_reply_to_screen_name", type: "string", required : false });
+        let p = s.getProperty("in_reply_to_screen_name");
+        expect(p).not.toBe(false);        
+    });
+
+    
+    
+    it("should define favorited property", () => {
+        s.addProperty({ "name" : "favorited", type: "boolean", required : true });
+        let p = s.getProperty("favorited");
+        expect(p).not.toBe(false);        
+    });
+
+    
+    it("should define retweeted property", () => {
+        s.addProperty({ "name" : "retweeted", type: "boolean", required : true });
+        let p = s.getProperty("retweeted");
+        expect(p).not.toBe(false);        
+    });
+
+    
+    it("should define lang property", () => {
+        s.addProperty({ "name" : "lang", type: "string", required : true });
+        let p = s.getProperty("lang");
         expect(p).not.toBe(false);        
     });
 });
