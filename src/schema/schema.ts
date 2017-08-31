@@ -1,5 +1,11 @@
 
-export interface Property {
+
+export class SchemaProperty {
+    /**
+     * Name of the property
+     */
+    name : string;
+
     /**
      * Type of the property. Can be:
      * 
@@ -13,9 +19,21 @@ export interface Property {
     required : boolean;
 
     /**
+     * Array of valid strings
+     */
+    enum : string[];    
+
+    /**
      * List of references
      */
-    oneOf? : any[]
+    oneOf : any[]
+
+    /**
+     * Regex string
+     */
+    pattern : string;
+
+
 }
 
 
