@@ -33,11 +33,17 @@ export class SchemaProperty {
      */
     pattern : string;
 
+    /**
+     * Format of the string
+     */
+    format : string;
+
     constructor(params? : any){
         this.required = false;
         this.enum = [];
-        this.oneOf = [];
-        this.type = "";
+        this.oneOf = [];        
+        this.name = "";
+        this.type = "string";
 
         if(typeof params != 'undefined'){
             if(typeof params['name'] == 'string' && params['name'] != ''){
@@ -54,8 +60,12 @@ export class SchemaProperty {
         return this.name;
     }
 
-    setType(type : string){
+    setType(type : string, enumValues? : string[]){
         this.type = type;
+
+        if(type == 'enum' && typeof enumValues != 'undefined'){
+            this.enum = enumValues;
+        }
     }
     
     getType(){
@@ -68,5 +78,17 @@ export class SchemaProperty {
 
     isRequired(){
         return this.required;
+    }
+
+    setFormat(format : string){
+        this.format = format;
+    }
+
+    getFormat(){
+        return this.format;
+    }
+
+    getEnum(){
+        return this.enum;
     }
 }

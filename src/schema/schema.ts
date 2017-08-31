@@ -32,8 +32,14 @@ export class Schema {
      * Constructor
      */
     constructor(){
+        this.description = "";
+        this.type = "object";
         this.properties = [];
         this.definitions = [];
+    }
+
+    setId(id : string){
+        this.id = id;
     }
 
     getId(){
@@ -64,8 +70,7 @@ export class Schema {
     }
 
     getProperty(name : string){
-        let list = this.properties.filter((p : SchemaProperty) => {
-            console.log(p);
+        let list = this.properties.filter((p : SchemaProperty) => {            
             if(p.getName() == name){
                 return true;
             }

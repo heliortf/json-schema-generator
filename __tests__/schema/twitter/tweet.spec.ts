@@ -1,7 +1,7 @@
 
 
 import 'jest';
-import { Schema } from './../../../src/include';
+import { Schema, SchemaProperty } from './../../../src/include';
 
 /**
  * Example of the object:
