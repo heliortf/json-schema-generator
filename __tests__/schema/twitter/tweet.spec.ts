@@ -214,4 +214,72 @@ describe("Tweet Schema", () => {
         let p = s.getProperty("lang");
         expect(p).not.toBe(false);        
     });
+
+
+    it("should define 'retweet_count' property", () => {
+        s.addProperty({ "name" : "retweet_count", type: "number", required : true });
+        let p = s.getProperty("retweet_count");
+        expect(p).not.toBe(false);        
+    });
+
+    
+    it("should define 'favorite_count' property", () => {
+        s.addProperty({ "name" : "favorite_count", type: "number", required : true });
+        let p = s.getProperty("favorite_count");
+        expect(p).not.toBe(false);        
+    });
+
+
+    it("should add user definition and property", () => {
+
+        s.addProperty({
+            "name" : "user",
+            "$ref" : "user.json"
+        });
+
+        let s2 = new Schema();
+        s2.setId("user.json");
+        s2.addProperty({ "name" : "id", "type" : "number", required: true });
+        s2.addProperty({ "name" : "id_str", "type" : "string", required: true });
+        s2.addProperty({ "name" : "name", "type" : "string", required: true });
+        s2.addProperty({ "name" : "screen_name", "type" : "string", required: true });
+        s2.addProperty({ "name" : "location", "type" : "string", required: true });
+        s2.addProperty({ "name" : "description", "type" : "string", required: false });
+        s2.addProperty({ "name" : "url", "type" : "string", required: false });
+        s2.addProperty({ "name" : "protected", "type" : "boolean", required: true });
+        s2.addProperty({ "name" : "followers_count", "type" : "number", required: true });
+        s2.addProperty({ "name" : "friends_count", "type" : "number", required: true });
+        s2.addProperty({ "name" : "listed_count", "type" : "number", required: true });
+        s2.addProperty({ "name" : "created_at", "type" : "date-time", required: true });
+        s2.addProperty({ "name" : "favourites_count", "type" : "number", required: true });
+        s2.addProperty({ "name" : "utc_offset", "type" : "number", required: false });
+        s2.addProperty({ "name" : "time_zone", "type" : "string", required: true });
+        s2.addProperty({ "name" : "verified", "type" : "boolean", required: true });
+        s2.addProperty({ "name" : "geo_enabled", "type" : "boolean", required: true });
+        s2.addProperty({ "name" : "statuses_count", "type" : "number", required: true });
+        s2.addProperty({ "name" : "lang", "type" : "string", required: true });
+        s2.addProperty({ "name" : "contributors_enabled", "type" : "boolean", required: true });
+        s2.addProperty({ "name" : "is_translator", "type" : "boolean", required: true });
+        s2.addProperty({ "name" : "is_translator_enabled", "type" : "boolean", required: true });
+        s2.addProperty({ "name" : "profile_background_color", "type" : "string", required: true });
+        s2.addProperty({ "name" : "profile_background_image_url", "type" : "uri", required: false });
+        s2.addProperty({ "name" : "profile_image_url_https", "type" : "uri", required: false });
+        s2.addProperty({ "name" : "profile_background_tile", "type" : "boolean", required: false });
+        s2.addProperty({ "name" : "profile_banner_url", "type" : "uri", required: false });
+        s2.addProperty({ "name" : "profile_link_color", "type" : "string", required: false });
+        s2.addProperty({ "name" : "profile_sidebar_border_color", "type" : "string", required: false });
+        s2.addProperty({ "name" : "profile_sidebar_fill_color", "type" : "string", required: false });
+        s2.addProperty({ "name" : "profile_text_color", "type" : "string", required: false });
+        s2.addProperty({ "name" : "profile_use_background_image", "type" : "boolean", required: false });
+        s2.addProperty({ "name" : "default_profile", "type" : "boolean", required: false });
+        s2.addProperty({ "name" : "default_profile_image", "type" : "boolean", required: false });
+        s2.addProperty({ "name" : "following", "type" : "boolean", required: false });
+        s2.addProperty({ "name" : "follow_request_sent", "type" : "boolean", required: false });
+        s2.addProperty({ "name" : "notifications", "type" : "boolean", required: false });
+
+        
+
+
+        s.addDefinition(s);
+    });
 });
