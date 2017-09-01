@@ -17,7 +17,9 @@
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ajv": "^5.2.2"
+  },
   "private": true,
   "devDependencies": {
     "@types/node": "^8.0.19",

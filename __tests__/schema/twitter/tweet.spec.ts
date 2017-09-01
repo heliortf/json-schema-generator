@@ -1,7 +1,9 @@
 
 
 import 'jest';
-import { Schema, SchemaProperty } from './../../../src/include';
+import { Schema, SchemaProperty, SchemaGenerator } from './../../../src/include';
+var Ajv = require('ajv');
+var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
 
 /**
  * Example of the object:
@@ -86,6 +88,10 @@ import { Schema, SchemaProperty } from './../../../src/include';
 describe("Tweet Schema", () => {
 
     let s = new Schema();
+    let generator   = new SchemaGenerator();
+    let objSchema = null;
+    let compiledSchema = null;
+
 
     it("should define", () => {
         s.setId("twitter-tweet.json");
@@ -277,9 +283,16 @@ describe("Tweet Schema", () => {
         s2.addProperty({ "name" : "follow_request_sent", "type" : "boolean", required: false });
         s2.addProperty({ "name" : "notifications", "type" : "boolean", required: false });
 
-        
-
-
         s.addDefinition(s);
+    });
+
+    it("should generate schema", () => {
+        
+        objSchema = generator.build(s);
+
+        expect(objSchema['id']).toBe("twitter-tweet.json");
+        expect(objSchema['type']).toBe("object");
+        compiledSchema  = ajv.compile(objSchema);        
+        
     });
 });
