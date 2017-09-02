@@ -292,7 +292,11 @@ describe("Tweet Schema", () => {
 
         expect(objSchema['id']).toBe("twitter-tweet.json");
         expect(objSchema['type']).toBe("object");
-        compiledSchema  = ajv.compile(objSchema);        
-        
+        compiledSchema  = ajv.compile(objSchema);                
     });
+
+    it("should validate against real twitter data", () => {
+        let tweets = require('./data/tweets.json');
+        expect(tweets).toHaveLength(200);
+    })
 });

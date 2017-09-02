@@ -72,6 +72,7 @@ export class SchemaGenerator {
     public build(schema : Schema) {
         let obj : any = {
             "$schema"       : "http://json-schema.org/draft-06/schema#",
+            "id"            : schema.getId(),
             "description"   : schema.getDescription(),
             "type"          : schema.getType()
         };
