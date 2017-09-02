@@ -199,7 +199,14 @@ describe("Tweet Schema", () => {
 
     
     it("should define in_reply_to_user_id property", () => {
-        s.addProperty({ "name" : "in_reply_to_user_id", type: "number", required : false });
+        s.addProperty({ 
+            "name" : "in_reply_to_user_id", 
+            "anyOf" : [
+                new Schema({ "type" : "number" }),
+                new Schema({ "type" : "null" })
+            ], 
+            required : false 
+        });
         let p = s.getProperty("in_reply_to_user_id");
         expect(p).not.toBe(false);        
     });
@@ -207,7 +214,14 @@ describe("Tweet Schema", () => {
     
     
     it("should define in_reply_to_user_id_str property", () => {
-        s.addProperty({ "name" : "in_reply_to_user_id_str", type: "string", required : false });
+        s.addProperty({ 
+            "name" : "in_reply_to_user_id_str", 
+            "anyOf": [
+                new Schema({ "type" : "string" }),
+                new Schema({ "type" : "null" })
+            ],
+            required : false 
+        });
         let p = s.getProperty("in_reply_to_user_id_str");
         expect(p).not.toBe(false);        
     });
@@ -215,7 +229,14 @@ describe("Tweet Schema", () => {
     
     
     it("should define in_reply_to_screen_name property", () => {
-        s.addProperty({ "name" : "in_reply_to_screen_name", type: "string", required : false });
+        s.addProperty({ 
+            "name" : "in_reply_to_screen_name", 
+            "anyOf": [
+                new Schema({ "type" : "string" }),
+                new Schema({ "type" : "null" })
+            ], 
+            required : false 
+        });
         let p = s.getProperty("in_reply_to_screen_name");
         expect(p).not.toBe(false);        
     });
