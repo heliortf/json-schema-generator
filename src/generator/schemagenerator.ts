@@ -42,6 +42,10 @@ export class SchemaGenerator {
             case 'enum':                
                 property['enum'] = p.getEnum();                
                 break;
+            case 'anyOf':
+                delete property['type'];
+                property['anyOf'] = this.buildSchemas(p.getAnyOf());
+                break;
         }
 
         return property;
@@ -64,22 +68,42 @@ export class SchemaGenerator {
         return properties;
     }
 
+    public buildSchemas(schemas : Schema[]){
+        let self = this;
+        let builtSchemas = schemas.map(function(schema : Schema){
+            return self.build(schema);
+        });
+        console.log("Built schemas!");
+        console.log(builtSchemas);
+        return builtSchemas;
+    }
+
     /**
      * Generates schema JSON
      * 
      * @param schema 
      */
-    public build(schema : Schema) {
-        let obj : any = {
-            "$schema"       : "http://json-schema.org/draft-06/schema#",
-            "id"            : schema.getId(),
-            "description"   : schema.getDescription(),
+    public build(schema : Schema, isSubSchema? : boolean) {
+        let obj : any = {            
             "type"          : schema.getType()
         };
 
+        if(!(typeof isSubSchema == 'boolean' && isSubSchema == true)){
+            obj["$schema"] = "http://json-schema.org/draft-06/schema#";
+        }
+
+        if(schema.getId() != ""){
+            obj['id'] = schema.getId();
+        }
+
+        if(schema.getDescription() != ''){
+            obj['description'] = schema.getDescription();
+        }
         
-        obj['required'] = this.buildRequiredProperties(schema);
-        obj['properties'] = this.buildProperties(schema);        
+        if(schema.getProperties().length > 0){
+            obj['required'] = this.buildRequiredProperties(schema);
+            obj['properties'] = this.buildProperties(schema);        
+        }
 
         return obj;
     }

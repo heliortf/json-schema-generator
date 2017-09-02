@@ -3,7 +3,7 @@
 import 'jest';
 import { Schema, SchemaProperty, SchemaGenerator } from './../../../src/include';
 var Ajv = require('ajv');
-var ajv = new Ajv(); // options can be passed, e.g. {allErrors: true}
+var ajv = new Ajv({ allErrors : true }); // options can be passed, e.g. {allErrors: true}
 
 /**
  * Example of the object:
@@ -92,6 +92,11 @@ describe("Tweet Schema", () => {
     let objSchema = null;
     let compiledSchema = null;
 
+    /**
+     * Nullable number
+     */
+    let sn = new Schema();
+    
 
     it("should define", () => {
         s.setId("twitter-tweet.json");
@@ -106,7 +111,7 @@ describe("Tweet Schema", () => {
         let p = new SchemaProperty();
         p.setName("created_at");
         p.setType("string");
-        p.setFormat("date-time");
+        p.setFormat("time");
         p.setRequired(true);
 
         s.addProperty(p);
@@ -164,14 +169,30 @@ describe("Tweet Schema", () => {
 
 
     it("should define in_reply_to_status_id property", () => {
-        s.addProperty({ "name" : "in_reply_to_status_id", type: "number", required: false });
+        
+        s.addProperty({ 
+            "name" : "in_reply_to_status_id",              
+            "anyOf" : [
+                new Schema({ "type" : "number" }),
+                new Schema({ "type" : "null" })
+            ], 
+            required: false 
+        });
+
         let p = s.getProperty("in_reply_to_status_id");
         expect(p).not.toBe(false);        
     });
 
 
     it("should define in_reply_to_status_id_str property", () => {
-        s.addProperty({ "name" : "in_reply_to_status_id_str", type: "string", required : false });
+        s.addProperty({ 
+            "name" : "in_reply_to_status_id_str", 
+            "anyOf": [
+                new Schema({ "type" : "string" }),
+                new Schema({ "type" : "null" })
+            ],
+            required : false 
+        });
         let p = s.getProperty("in_reply_to_status_id_str");
         expect(p).not.toBe(false);        
     });
@@ -289,14 +310,22 @@ describe("Tweet Schema", () => {
     it("should generate schema", () => {
         
         objSchema = generator.build(s);
-
+        console.log(objSchema);
         expect(objSchema['id']).toBe("twitter-tweet.json");
         expect(objSchema['type']).toBe("object");
-        compiledSchema  = ajv.compile(objSchema);                
+        compiledSchema  = ajv.compile(objSchema);      
+
+        expect(typeof compiledSchema == 'function').toBe(true);
     });
 
     it("should validate against real twitter data", () => {
         let tweets = require('./data/tweets.json');
         expect(tweets).toHaveLength(200);
+
+        let valid = compiledSchema(tweets[0]);
+        console.log(compiledSchema.errors);
+        expect(valid).toBe(true);       
+        
+        
     })
 });

@@ -31,11 +31,19 @@ export class Schema {
     /**
      * Constructor
      */
-    constructor(){
+    constructor(params? : any){
         this.description = "";
         this.type = "object";
+        this.id = "";
         this.properties = [];
         this.definitions = [];
+
+        if(typeof params == 'object'){
+            
+            if(typeof params['type'] == 'string' && params['type'] != ''){
+                this.setType(params['type']);
+            }
+        }
     }
 
     setId(id : string){

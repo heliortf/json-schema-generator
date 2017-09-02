@@ -1,4 +1,5 @@
 
+import { Schema } from './index';
 
 export class SchemaProperty {
     /**
@@ -24,9 +25,14 @@ export class SchemaProperty {
     enum : string[];    
 
     /**
-     * List of references
+     * List of schemas
      */
-    oneOf : any[]
+    oneOf : Schema[];
+
+    /**
+     * List of schemas
+     */
+    anyOf : Schema[];
 
     /**
      * Regex string
@@ -44,7 +50,8 @@ export class SchemaProperty {
         this.oneOf = [];        
         this.name = "";
         this.type = "string";
-
+        this.format = "";
+        
         this.setValues(params);
     }
 
@@ -65,6 +72,11 @@ export class SchemaProperty {
 
             if(typeof params['required'] == 'boolean'){
                 this.setRequired(params['required']);
+            }
+
+            if(typeof params['anyOf'] == 'object' && params['anyOf'] instanceof Array){
+                this.setType('anyOf');
+                this.setAnyOf(params['anyOf'])
             }
         }
     }
@@ -107,5 +119,13 @@ export class SchemaProperty {
 
     getEnum(){
         return this.enum;
+    }
+
+    setAnyOf(schemas : Schema[]){
+        this.anyOf = schemas;
+    }
+
+    getAnyOf(){
+        return this.anyOf;
     }
 }
