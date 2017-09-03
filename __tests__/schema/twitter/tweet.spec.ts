@@ -111,7 +111,6 @@ describe("Tweet Schema", () => {
         let p = new SchemaProperty();
         p.setName("created_at");
         p.setType("string");
-        p.setFormat("time");
         p.setRequired(true);
 
         s.addProperty(p);
@@ -298,7 +297,7 @@ describe("Tweet Schema", () => {
         s2.addProperty({ "name" : "followers_count", "type" : "number", required: true });
         s2.addProperty({ "name" : "friends_count", "type" : "number", required: true });
         s2.addProperty({ "name" : "listed_count", "type" : "number", required: true });
-        s2.addProperty({ "name" : "created_at", "type" : "string", "format": "date-time", required: true });
+        s2.addProperty({ "name" : "created_at", "type" : "string", required: true });
         s2.addProperty({ "name" : "favourites_count", "type" : "number", required: true });
         s2.addProperty({ "name" : "utc_offset", "type" : "number", required: false });
         s2.addProperty({ "name" : "time_zone", "type" : "string", required: true });
@@ -331,7 +330,7 @@ describe("Tweet Schema", () => {
     it("should generate schema", () => {
         
         objSchema = generator.build(s);
-        console.log(objSchema);
+        
         expect(objSchema['id']).toBe("twitter-tweet.json");
         expect(objSchema['type']).toBe("object");
         expect(objSchema['properties']['user']['$ref']).toBeDefined();
@@ -344,9 +343,10 @@ describe("Tweet Schema", () => {
         let tweets = require('./data/tweets.json');
         expect(tweets).toHaveLength(200);
 
-        let valid = compiledSchema(tweets[0]);
-        console.log(compiledSchema.errors);
-        expect(valid).toBe(true);       
+        tweets.forEach((tweet : any) => {
+            let valid = compiledSchema(tweets[0]);            
+            expect(valid).toBe(true);       
+        });
         
         
     })
