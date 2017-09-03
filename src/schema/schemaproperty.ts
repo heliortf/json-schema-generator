@@ -44,6 +44,11 @@ export class SchemaProperty {
      */
     format : string;
 
+    /**
+     * Reference to a definition
+     */
+    ref : string;
+
     constructor(params? : any){
         this.required = false;
         this.enum = [];
@@ -51,7 +56,7 @@ export class SchemaProperty {
         this.name = "";
         this.type = "string";
         this.format = "";
-        
+
         this.setValues(params);
     }
 
@@ -77,6 +82,11 @@ export class SchemaProperty {
             if(typeof params['anyOf'] == 'object' && params['anyOf'] instanceof Array){
                 this.setType('anyOf');
                 this.setAnyOf(params['anyOf'])
+            }
+
+            if(typeof params['$ref'] == 'string' && params['$ref'] != ''){
+                this.setType('$ref');
+                this.setRef(params['$ref']);                
             }
         }
     }
@@ -127,5 +137,13 @@ export class SchemaProperty {
 
     getAnyOf(){
         return this.anyOf;
+    }
+
+    getRef(){
+        return this.ref;
+    }
+
+    setRef(ref : string){
+        this.ref = ref;
     }
 }

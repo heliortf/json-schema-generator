@@ -282,11 +282,11 @@ describe("Tweet Schema", () => {
 
         s.addProperty({
             "name" : "user",
-            "$ref" : "user.json"
+            "$ref" : "user"
         });
 
         let s2 = new Schema();
-        s2.setId("user.json");
+        s2.setId("user");
         s2.addProperty({ "name" : "id", "type" : "number", required: true });
         s2.addProperty({ "name" : "id_str", "type" : "string", required: true });
         s2.addProperty({ "name" : "name", "type" : "string", required: true });
@@ -298,7 +298,7 @@ describe("Tweet Schema", () => {
         s2.addProperty({ "name" : "followers_count", "type" : "number", required: true });
         s2.addProperty({ "name" : "friends_count", "type" : "number", required: true });
         s2.addProperty({ "name" : "listed_count", "type" : "number", required: true });
-        s2.addProperty({ "name" : "created_at", "type" : "date-time", required: true });
+        s2.addProperty({ "name" : "created_at", "type" : "string", "format": "date-time", required: true });
         s2.addProperty({ "name" : "favourites_count", "type" : "number", required: true });
         s2.addProperty({ "name" : "utc_offset", "type" : "number", required: false });
         s2.addProperty({ "name" : "time_zone", "type" : "string", required: true });
@@ -307,13 +307,13 @@ describe("Tweet Schema", () => {
         s2.addProperty({ "name" : "statuses_count", "type" : "number", required: true });
         s2.addProperty({ "name" : "lang", "type" : "string", required: true });
         s2.addProperty({ "name" : "contributors_enabled", "type" : "boolean", required: true });
-        s2.addProperty({ "name" : "is_translator", "type" : "boolean", required: true });
-        s2.addProperty({ "name" : "is_translator_enabled", "type" : "boolean", required: true });
+        s2.addProperty({ "name" : "is_translator", "type" : "boolean", required: false });
+        s2.addProperty({ "name" : "is_translator_enabled", "type" : "boolean", required: false });
         s2.addProperty({ "name" : "profile_background_color", "type" : "string", required: true });
-        s2.addProperty({ "name" : "profile_background_image_url", "type" : "uri", required: false });
-        s2.addProperty({ "name" : "profile_image_url_https", "type" : "uri", required: false });
+        s2.addProperty({ "name" : "profile_background_image_url", "type" : "string", "format": "uri", required: false });
+        s2.addProperty({ "name" : "profile_image_url_https", "type" : "string", "format" : "uri", required: false });
         s2.addProperty({ "name" : "profile_background_tile", "type" : "boolean", required: false });
-        s2.addProperty({ "name" : "profile_banner_url", "type" : "uri", required: false });
+        s2.addProperty({ "name" : "profile_banner_url", "type" : "string", "format" : "uri", required: false });
         s2.addProperty({ "name" : "profile_link_color", "type" : "string", required: false });
         s2.addProperty({ "name" : "profile_sidebar_border_color", "type" : "string", required: false });
         s2.addProperty({ "name" : "profile_sidebar_fill_color", "type" : "string", required: false });
@@ -323,9 +323,9 @@ describe("Tweet Schema", () => {
         s2.addProperty({ "name" : "default_profile_image", "type" : "boolean", required: false });
         s2.addProperty({ "name" : "following", "type" : "boolean", required: false });
         s2.addProperty({ "name" : "follow_request_sent", "type" : "boolean", required: false });
-        s2.addProperty({ "name" : "notifications", "type" : "boolean", required: false });
+        s2.addProperty({ "name" : "notifications", "type" : "boolean", required: false });        
 
-        s.addDefinition(s);
+        s.addDefinition(s2);
     });
 
     it("should generate schema", () => {
@@ -334,6 +334,7 @@ describe("Tweet Schema", () => {
         console.log(objSchema);
         expect(objSchema['id']).toBe("twitter-tweet.json");
         expect(objSchema['type']).toBe("object");
+        expect(objSchema['properties']['user']['$ref']).toBeDefined();
         compiledSchema  = ajv.compile(objSchema);      
 
         expect(typeof compiledSchema == 'function').toBe(true);

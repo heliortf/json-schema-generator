@@ -46,6 +46,10 @@ export class SchemaGenerator {
                 delete property['type'];
                 property['anyOf'] = this.buildSchemas(p.getAnyOf());
                 break;
+            case '$ref':
+                delete property['type'];
+                property['$ref'] = '#/definitions/'+p.getRef();
+                break;
         }
 
         return property;
@@ -73,9 +77,25 @@ export class SchemaGenerator {
         let builtSchemas = schemas.map(function(schema : Schema){
             return self.build(schema);
         });
-        console.log("Built schemas!");
-        console.log(builtSchemas);
+        //console.log("Built schemas!");
+        //console.log(builtSchemas);
         return builtSchemas;
+    }
+
+    public buildDefinitions(schema : Schema){
+        let self = this;
+        let definitions : any = {};
+        
+        schema.getDefinitions().forEach((def : Schema) => {
+            let schemaDefinition = self.build(def, true);
+            delete schemaDefinition['id'];
+            delete schemaDefinition['type'];    
+            console.log("SCHEMA_DEFINITION");
+            console.log(schemaDefinition);
+            definitions[def.getId()] = schemaDefinition;
+        });
+
+        return definitions;
     }
 
     /**
@@ -103,6 +123,10 @@ export class SchemaGenerator {
         if(schema.getProperties().length > 0){
             obj['required'] = this.buildRequiredProperties(schema);
             obj['properties'] = this.buildProperties(schema);        
+        }
+
+        if(schema.getDefinitions().length > 0){
+            obj['definitions'] = this.buildDefinitions(schema); 
         }
 
         return obj;
