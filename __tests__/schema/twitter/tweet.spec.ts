@@ -91,11 +91,6 @@ describe("Tweet Schema", () => {
     let generator   = new SchemaGenerator();
     let objSchema = null;
     let compiledSchema = null;
-
-    /**
-     * Nullable number
-     */
-    let sn = new Schema();
     
 
     it("should define", () => {
