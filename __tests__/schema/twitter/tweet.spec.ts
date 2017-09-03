@@ -344,7 +344,7 @@ describe("Tweet Schema", () => {
         expect(tweets).toHaveLength(200);
 
         tweets.forEach((tweet : any) => {
-            let valid = compiledSchema(tweets[0]);            
+            let valid = compiledSchema(tweet);            
             expect(valid).toBe(true);       
         });
         

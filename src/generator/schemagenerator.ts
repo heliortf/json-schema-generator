@@ -90,8 +90,7 @@ export class SchemaGenerator {
             let schemaDefinition = self.build(def, true);
             delete schemaDefinition['id'];
             delete schemaDefinition['type'];    
-            console.log("SCHEMA_DEFINITION");
-            console.log(schemaDefinition);
+            
             definitions[def.getId()] = schemaDefinition;
         });
 
