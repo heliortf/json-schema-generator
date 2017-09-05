@@ -304,10 +304,10 @@ describe("Tweet Schema", () => {
         s2.addProperty({ "name" : "is_translator", "type" : "boolean", required: false });
         s2.addProperty({ "name" : "is_translator_enabled", "type" : "boolean", required: false });
         s2.addProperty({ "name" : "profile_background_color", "type" : "string", required: true });
-        s2.addProperty({ "name" : "profile_background_image_url", "type" : "string", "format": "uri", required: false });
-        s2.addProperty({ "name" : "profile_image_url_https", "type" : "string", "format" : "uri", required: false });
+        s2.addProperty({ "name" : "profile_background_image_url", "type" : "string", "format": "url", required: false });
+        s2.addProperty({ "name" : "profile_image_url_https", "type" : "string", "format" : "url", required: false });
         s2.addProperty({ "name" : "profile_background_tile", "type" : "boolean", required: false });
-        s2.addProperty({ "name" : "profile_banner_url", "type" : "string", "format" : "uri", required: false });
+        s2.addProperty({ "name" : "profile_banner_url", "type" : "string", "format" : "url", required: false });
         s2.addProperty({ "name" : "profile_link_color", "type" : "string", required: false });
         s2.addProperty({ "name" : "profile_sidebar_border_color", "type" : "string", required: false });
         s2.addProperty({ "name" : "profile_sidebar_fill_color", "type" : "string", required: false });

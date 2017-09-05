@@ -96,7 +96,7 @@ export class Schema {
         return false;
     }
 
-    addDefinition(definition : Schema){
+    addDefinition(definition : Schema){        
         this.definitions.push(definition);
     }
 

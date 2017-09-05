@@ -1,0 +1,73 @@
+{
+    "data": [
+        {
+            "created_time": "2017-09-04T19:32:30+0000",
+            "from": {
+                "name": "Annalu Alvarenga",
+                "id": "10203188208081239"
+            },
+            "message": "Insatisfeita com a loja Renner ,pois uma sobrinha está tendo problemas para q a loja resolva uma questão de pagamento e só promessa!!ufa!!!",
+            "id": "1557482984308827_1557511960972596"
+        },
+        {
+            "created_time": "2017-09-04T20:05:23+0000",
+            "from": {
+                "name": "Viviane Freitas",
+                "id": "1738658619690160"
+            },
+            "message": "Fiz uma compra no site veio o produto estou insatisfeita pois é totalmente diferente da loja a roupa veio cheio de imenda  decepcionada",
+            "id": "1557482984308827_1557546820969110"
+        },
+        {
+            "created_time": "2017-09-04T19:26:47+0000",
+            "from": {
+            "name": "Marlova Atz Danesi",
+            "id": "671198446321022"
+            },
+            "message": "As Lojas Renner passam a ideia de uma empresa que se preocupa e se interessa em oferecer o melhor atendimento ao seu cliente, mas não é isso que esta acontecendo. Ainda não obtive retorno à minha reclamação de cobrança indevida na fatura. Continuo aguardando",
+            "id": "1557482984308827_1557509020972890"
+        },
+        {
+            "created_time": "2017-09-04T19:30:46+0000",
+            "from": {
+                "name": "Andrea De O B P Silva",
+                "id": "422726384557904"
+            },
+            "message": "ADRIANA\n16:26:52Contato será realizado até dia 08/09, conforme o prazo do último contato pelo Reclame Aqui.\n    andrea\n    16:27:12vou colocar no juizado16:27:52loja sem carater, agora vou fazer campanha nas redes sociais, nem precisa, pois todos reclamam16:28:15nunca mais compro nesta loja16:28:55vcs deveriam enviar essas conversar do chat para nosso email16:29:06pois e mais prova na justiça",
+            "id": "1557482984308827_1557510937639365"
+        },
+        {
+            "created_time": "2017-09-04T20:41:51+0000",
+            "from": {
+                "name": "Wanessa Ribeiro",
+                "id": "921632367899481"
+            },
+            "message": "Jessica Lopes Costa Welline Ribeiro",
+            "id": "1557482984308827_1557638330959959"
+        },
+        {
+            "created_time": "2017-09-04T18:48:52+0000",
+            "from": {
+                "name": "Christian Ferru",
+                "id": "1493027187502843"
+            },
+            "message": "Sei que muitos vão ignorar e talvez nem leiam até o fim :'( mas não posso desistir de tentar mostrar minhas músicas a vocês...por favor me SIGAM e venham conhecer minhas músicas, meu trabalho!! Posto diariamente vídeos de músicas minhas e preciso de vocês <3 SIGAM <3 Obrigado !!!",
+            "id": "1557482984308827_1557483097642149"
+        },
+        {
+            "created_time": "2017-09-04T19:31:09+0000",
+            "from": {
+                "name": "Andrea De O B P Silva",
+                "id": "422726384557904"
+            },
+            "message": "essa e a conversa da loja que nao estorna a mercadoria no cartao",
+            "id": "1557482984308827_1557511170972675"
+        }
+    ],
+    "paging": {
+        "cursors": {
+            "before": "OAZDZD",
+            "after": "MQZDZD"
+        }
+    }
+}

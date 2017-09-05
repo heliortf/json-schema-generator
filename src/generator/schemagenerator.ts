@@ -9,15 +9,19 @@ export class SchemaGenerator {
      * @param schema 
      */
     buildRequiredProperties(schema : Schema) : string[] {
-        // Required properties
-        let requiredProperties : SchemaProperty[] = schema.getProperties().filter((p : SchemaProperty) => {
-           return p.isRequired()
-        });
+        if(schema.getProperties().length > 0){
+            // Required properties
+            let requiredProperties : SchemaProperty[] = schema.getProperties().filter((p : SchemaProperty) => {
+            return p.isRequired();
+            });
 
-        // Map required properties
-        return requiredProperties.map((p : SchemaProperty) => {
-            return p.getName();
-        });
+            // Map required properties
+            return requiredProperties.map((p : SchemaProperty) => {
+                return p.getName();
+            });
+        }
+
+        return [];
     }
 
     /**
@@ -37,10 +41,20 @@ export class SchemaGenerator {
                 
                 if(p.getFormat() != ""){
                     property['format'] = p.getFormat()
-                }                
+                }     
+
+                if(p.getMinLength() != null){
+                    property['minLength'] = p.getMinLength();
+                }           
+
+                if(p.getMaxLength() != null){
+                    property['maxLength'] = p.getMaxLength();
+                }
                 break;
             case 'enum':                
-                property['enum'] = p.getEnum();                
+                if(p.getEnum().length > 0){
+                    property['enum'] = p.getEnum();                
+                }
                 break;
             case 'anyOf':
                 delete property['type'];
@@ -49,6 +63,9 @@ export class SchemaGenerator {
             case '$ref':
                 delete property['type'];
                 property['$ref'] = '#/definitions/'+p.getRef();
+                break;
+            case 'array':                
+                property['items'] = this.buildProperty(p.getItems());                
                 break;
         }
 
@@ -90,7 +107,11 @@ export class SchemaGenerator {
             let schemaDefinition = self.build(def, true);
             delete schemaDefinition['id'];
             delete schemaDefinition['type'];    
-            
+            /*if(def.getId() == 'facebookLikes'){
+                console.log("\n\nDEFINITION:");
+                console.log(schemaDefinition);
+                console.log("\n\n\n");
+            }*/
             definitions[def.getId()] = schemaDefinition;
         });
 

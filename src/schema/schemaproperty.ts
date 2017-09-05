@@ -45,6 +45,21 @@ export class SchemaProperty {
     format : string;
 
     /**
+     * Applied to strings
+     */
+    minLength : number;
+
+    /**
+     * Applied to strings
+     */
+    maxLength : number;
+
+    /**
+     * Used in array type
+     */
+    items : any;
+
+    /**
      * Reference to a definition
      */
     ref : string;
@@ -56,6 +71,8 @@ export class SchemaProperty {
         this.name = "";
         this.type = "string";
         this.format = "";
+        this.minLength = null;
+        this.maxLength = null;
 
         this.setValues(params);
     }
@@ -69,6 +86,14 @@ export class SchemaProperty {
 
             if(typeof params['format'] == 'string' && params['format'] != ''){
                 this.setFormat(params['format']);
+            }
+
+            if(typeof params['minLength'] == 'number' && params['minLength'] >= 0){
+                this.setMinLength(params['minLength']);
+            }
+
+            if(typeof params['maxLength'] == 'number' && params['maxLength'] > 0){
+                this.setMaxLength(params['maxLength']);
             }
 
             if(typeof params['type'] == 'string' && params['type'] != ''){
@@ -87,6 +112,11 @@ export class SchemaProperty {
             if(typeof params['$ref'] == 'string' && params['$ref'] != ''){
                 this.setType('$ref');
                 this.setRef(params['$ref']);                
+            }
+
+            if(typeof params['items'] == 'object' && Object.keys(params['items']).length > 0){
+                this.setType('array');
+                this.setItems(new SchemaProperty(params['items']));
             }
         }
     }
@@ -127,6 +157,22 @@ export class SchemaProperty {
         return this.format;
     }
 
+    setMinLength(length : number){
+        this.minLength = length;
+    }
+
+    getMinLength(){
+        return this.minLength;
+    }
+
+    setMaxLength(length : number){
+        this.maxLength = length;
+    }
+
+    getMaxLength(){
+        return this.maxLength;
+    }
+
     getEnum(){
         return this.enum;
     }
@@ -145,5 +191,13 @@ export class SchemaProperty {
 
     setRef(ref : string){
         this.ref = ref;
+    }
+
+    setItems(items : any){
+        this.items = items;
+    }
+
+    getItems(){
+        return this.items;
     }
 }
