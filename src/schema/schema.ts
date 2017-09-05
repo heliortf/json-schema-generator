@@ -38,10 +38,27 @@ export class Schema {
         this.properties = [];
         this.definitions = [];
 
+        this.setValues(params);
+    }
+
+    setValues(params : any){
+        let self = this;
+
         if(typeof params == 'object'){
-            
             if(typeof params['type'] == 'string' && params['type'] != ''){
                 this.setType(params['type']);
+            }
+
+            if(typeof params['id'] == 'string' && params['id'] != ''){
+                this.setId(params['id']);
+            }
+
+            if(typeof params['properties'] == 'object' && Object.keys(params['properties']).length > 0){                
+                let keys = Object.keys(params['properties']);
+
+                let properties = keys.forEach((key : string) => {
+                    self.addProperty(params['properties'][key]);
+                });
             }
         }
     }
@@ -102,5 +119,5 @@ export class Schema {
 
     getDefinitions(){
         return this.definitions;
-    }
+    }    
 }
