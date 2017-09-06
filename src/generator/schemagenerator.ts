@@ -9,7 +9,7 @@ export class SchemaGenerator {
      * @param schema
      */
     public buildRequiredProperties(schema: Schema): string[] {
-        if (schema.getProperties().length > 0){
+        if (schema.getProperties().length > 0) {
             // Required properties
             const requiredProperties: SchemaProperty[] = schema.getProperties().filter((p: SchemaProperty) => {
             return p.isRequired();
@@ -34,25 +34,25 @@ export class SchemaGenerator {
             type      : p.getType(),
         };
 
-        switch (p.getType()){
+        switch (p.getType()) {
             case "object":
                 break;
             case "string":
 
-                if (p.getFormat() != ""){
+                if (p.getFormat() !== "") {
                     property.format = p.getFormat();
                 }
 
-                if (p.getMinLength() != null){
+                if (p.getMinLength() !== null) {
                     property.minLength = p.getMinLength();
                 }
 
-                if (p.getMaxLength() != null){
+                if (p.getMaxLength() !== null) {
                     property.maxLength = p.getMaxLength();
                 }
                 break;
             case "enum":
-                if (p.getEnum().length > 0){
+                if (p.getEnum().length > 0) {
                     property.enum = p.getEnum();
                 }
                 break;
@@ -89,17 +89,15 @@ export class SchemaGenerator {
         return properties;
     }
 
-    public buildSchemas(schemas: Schema[]){
+    public buildSchemas(schemas: Schema[]) {
         const self = this;
-        const builtSchemas = schemas.map(function(schema: Schema){
+        const builtSchemas = schemas.map((schema: Schema) => {
             return self.build(schema);
         });
-        //console.log("Built schemas!");
-        //console.log(builtSchemas);
         return builtSchemas;
     }
 
-    public buildDefinitions(schema: Schema){
+    public buildDefinitions(schema: Schema) {
         const self = this;
         const definitions: any = {};
 
@@ -107,11 +105,6 @@ export class SchemaGenerator {
             const schemaDefinition = self.build(def, true);
             delete schemaDefinition.id;
             delete schemaDefinition.type;
-            /*if(def.getId() == 'facebookLikes'){
-                console.log("\n\nDEFINITION:");
-                console.log(schemaDefinition);
-                console.log("\n\n\n");
-            }*/
             definitions[def.getId()] = schemaDefinition;
         });
 
@@ -128,24 +121,24 @@ export class SchemaGenerator {
             type          : schema.getType(),
         };
 
-        if (!(typeof isSubSchema == "boolean" && isSubSchema == true)){
+        if (!(typeof isSubSchema === "boolean" && isSubSchema === true)) {
             obj.$schema = "http://json-schema.org/draft-06/schema#";
         }
 
-        if (schema.getId() != ""){
+        if (schema.getId() !== "") {
             obj.id = schema.getId();
         }
 
-        if (schema.getDescription() != ""){
+        if (schema.getDescription() !== "") {
             obj.description = schema.getDescription();
         }
 
-        if (schema.getProperties().length > 0){
+        if (schema.getProperties().length > 0) {
             obj.required = this.buildRequiredProperties(schema);
             obj.properties = this.buildProperties(schema);
         }
 
-        if (schema.getDefinitions().length > 0){
+        if (schema.getDefinitions().length > 0) {
             obj.definitions = this.buildDefinitions(schema);
         }
 

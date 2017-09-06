@@ -78,126 +78,126 @@ export class SchemaProperty {
     }
 
     public setValues(params: any) {
-        if (typeof params !== "undefined"){
+        if (typeof params !== "undefined") {
 
-            if (typeof params.name === "string" && params.name !== ""){
+            if (typeof params.name === "string" && params.name !== "") {
                 this.setName(params.name);
             }
 
-            if (typeof params.format === "string" && params.format !== ""){
+            if (typeof params.format === "string" && params.format !== "") {
                 this.setFormat(params.format);
             }
 
-            if (typeof params.minLength === "number" && params.minLength >= 0){
+            if (typeof params.minLength === "number" && params.minLength >= 0) {
                 this.setMinLength(params.minLength);
             }
 
-            if (typeof params.maxLength === "number" && params.maxLength > 0){
+            if (typeof params.maxLength === "number" && params.maxLength > 0) {
                 this.setMaxLength(params.maxLength);
             }
 
-            if (typeof params.type === "string" && params.type !== ""){
+            if (typeof params.type === "string" && params.type !== "") {
                 this.setType(params.type);
             }
 
-            if (typeof params.required === "boolean"){
+            if (typeof params.required === "boolean") {
                 this.setRequired(params.required);
             }
 
-            if (typeof params.anyOf === "object" && params.anyOf instanceof Array){
+            if (typeof params.anyOf === "object" && params.anyOf instanceof Array) {
                 this.setType("anyOf");
                 this.setAnyOf(params.anyOf);
             }
 
-            if (typeof params.$ref === "string" && params.$ref !== ""){
+            if (typeof params.$ref === "string" && params.$ref !== "") {
                 this.setType("$ref");
                 this.setRef(params.$ref);
             }
 
-            if (typeof params.items === "object" && Object.keys(params.items).length > 0){
+            if (typeof params.items === "object" && Object.keys(params.items).length > 0) {
                 this.setType("array");
                 this.setItems(new SchemaProperty(params.items));
             }
         }
     }
 
-    public setName(name: string){
+    public setName(name: string) {
         this.name = name;
     }
 
-    public getName(){
+    public getName() {
         return this.name;
     }
 
-    public setType(type: string, enumValues?: string[]){
+    public setType(type: string, enumValues?: string[]) {
         this.type = type;
 
-        if (type == "enum" && typeof enumValues != "undefined"){
+        if (type === "enum" && typeof enumValues !== "undefined") {
             this.enum = enumValues;
         }
     }
 
-    public getType(){
+    public getType() {
         return this.type;
     }
 
-    public setRequired(required: boolean){
+    public setRequired(required: boolean) {
         this.required = required;
     }
 
-    public isRequired(){
+    public isRequired() {
         return this.required;
     }
 
-    public setFormat(format: string){
+    public setFormat(format: string) {
         this.format = format;
     }
 
-    public getFormat(){
+    public getFormat() {
         return this.format;
     }
 
-    public setMinLength(length: number){
+    public setMinLength(length: number) {
         this.minLength = length;
     }
 
-    public getMinLength(){
+    public getMinLength() {
         return this.minLength;
     }
 
-    public setMaxLength(length: number){
+    public setMaxLength(length: number) {
         this.maxLength = length;
     }
 
-    public getMaxLength(){
+    public getMaxLength() {
         return this.maxLength;
     }
 
-    public getEnum(){
+    public getEnum() {
         return this.enum;
     }
 
-    public setAnyOf(schemas: Schema[]){
+    public setAnyOf(schemas: Schema[]) {
         this.anyOf = schemas;
     }
 
-    public getAnyOf(){
+    public getAnyOf() {
         return this.anyOf;
     }
 
-    public getRef(){
+    public getRef() {
         return this.ref;
     }
 
-    public setRef(ref: string){
+    public setRef(ref: string) {
         this.ref = ref;
     }
 
-    public setItems(items: any){
+    public setItems(items: any) {
         this.items = items;
     }
 
-    public getItems(){
+    public getItems() {
         return this.items;
     }
 }

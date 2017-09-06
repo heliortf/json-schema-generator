@@ -30,7 +30,7 @@ export class Schema {
     /**
      * Constructor
      */
-    constructor(params?: any){
+    constructor(params?: any) {
         this.description = "";
         this.type = "object";
         this.id = "";
@@ -40,19 +40,19 @@ export class Schema {
         this.setValues(params);
     }
 
-    public setValues(params: any){
+    public setValues(params: any) {
         const self = this;
 
-        if (typeof params == "object"){
-            if (typeof params.type == "string" && params.type != ""){
+        if (typeof params === "object") {
+            if (typeof params.type === "string" && params.type !== "") {
                 this.setType(params.type);
             }
 
-            if (typeof params.id == "string" && params.id != ""){
+            if (typeof params.id === "string" && params.id !== "") {
                 this.setId(params.id);
             }
 
-            if (typeof params.properties == "object" && Object.keys(params.properties).length > 0){
+            if (typeof params.properties === "object" && Object.keys(params.properties).length > 0) {
                 const keys = Object.keys(params.properties);
 
                 const properties = keys.forEach((key: string) => {
@@ -62,61 +62,61 @@ export class Schema {
         }
     }
 
-    public setId(id: string){
+    public setId(id: string) {
         this.id = id;
     }
 
-    public getId(){
+    public getId() {
         return this.id;
     }
 
-    public setType(type: string){
+    public setType(type: string) {
         this.type = type;
     }
 
-    public getType(){
+    public getType() {
         return this.type;
     }
 
-    public setDescription(description: string){
+    public setDescription(description: string) {
         this.description = description;
     }
 
-    public getDescription(){
+    public getDescription() {
         return this.description;
     }
 
-    public addProperty(p: any){
-        if (!(p instanceof SchemaProperty)){
+    public addProperty(p: any) {
+        if (!(p instanceof SchemaProperty)) {
             p = new SchemaProperty(p);
         }
         this.properties.push(p);
     }
 
-    public getProperties(){
+    public getProperties() {
         return this.properties;
     }
 
-    public getProperty(name: string){
+    public getProperty(name: string) {
         const list = this.properties.filter((p: SchemaProperty) => {
-            if (p.getName() == name){
+            if (p.getName() === name) {
                 return true;
             }
             return false;
         });
 
-        if (list.length > 0){
+        if (list.length > 0) {
             return list[0];
         }
 
         return false;
     }
 
-    public addDefinition(definition: Schema){
+    public addDefinition(definition: Schema) {
         this.definitions.push(definition);
     }
 
-    public getDefinitions(){
+    public getDefinitions() {
         return this.definitions;
     }
 }
