@@ -1,37 +1,36 @@
 
-import { SchemaProperty } from './index';
-
+import { SchemaProperty } from "./index";
 
 export class Schema {
     /**
      * ID of the schema
      */
-    id : string;
+    public id: string;
 
     /**
      * Type
      */
-    type : string;
+    public type: string;
 
     /**
      * Description of the schema
      */
-    description : string;
+    public description: string;
 
     /**
      * List of properties
      */
-    properties : SchemaProperty[];
+    public properties: SchemaProperty[];
 
     /**
      * List of definitions used by this schema
      */
-    definitions : Schema[];
+    public definitions: Schema[];
 
     /**
      * Constructor
      */
-    constructor(params? : any){
+    constructor(params?: any){
         this.description = "";
         this.type = "object";
         this.id = "";
@@ -41,83 +40,83 @@ export class Schema {
         this.setValues(params);
     }
 
-    setValues(params : any){
-        let self = this;
+    public setValues(params: any){
+        const self = this;
 
-        if(typeof params == 'object'){
-            if(typeof params['type'] == 'string' && params['type'] != ''){
-                this.setType(params['type']);
+        if (typeof params == "object"){
+            if (typeof params.type == "string" && params.type != ""){
+                this.setType(params.type);
             }
 
-            if(typeof params['id'] == 'string' && params['id'] != ''){
-                this.setId(params['id']);
+            if (typeof params.id == "string" && params.id != ""){
+                this.setId(params.id);
             }
 
-            if(typeof params['properties'] == 'object' && Object.keys(params['properties']).length > 0){                
-                let keys = Object.keys(params['properties']);
+            if (typeof params.properties == "object" && Object.keys(params.properties).length > 0){
+                const keys = Object.keys(params.properties);
 
-                let properties = keys.forEach((key : string) => {
-                    self.addProperty(params['properties'][key]);
+                const properties = keys.forEach((key: string) => {
+                    self.addProperty(params.properties[key]);
                 });
             }
         }
     }
 
-    setId(id : string){
+    public setId(id: string){
         this.id = id;
     }
 
-    getId(){
+    public getId(){
         return this.id;
     }
 
-    setType(type : string){
+    public setType(type: string){
         this.type = type;
     }
 
-    getType(){
+    public getType(){
         return this.type;
     }
 
-    setDescription(description : string){
+    public setDescription(description: string){
         this.description = description;
     }
 
-    getDescription(){
+    public getDescription(){
         return this.description;
     }
 
-    addProperty(p : any){
-        if(!(p instanceof SchemaProperty)){
+    public addProperty(p: any){
+        if (!(p instanceof SchemaProperty)){
             p = new SchemaProperty(p);
         }
         this.properties.push(p);
     }
 
-    getProperties(){
+    public getProperties(){
         return this.properties;
     }
 
-    getProperty(name : string){
-        let list = this.properties.filter((p : SchemaProperty) => {            
-            if(p.getName() == name){
+    public getProperty(name: string){
+        const list = this.properties.filter((p: SchemaProperty) => {
+            if (p.getName() == name){
                 return true;
             }
             return false;
         });
 
-        if(list.length > 0){
+        if (list.length > 0){
             return list[0];
         }
 
         return false;
     }
 
-    addDefinition(definition : Schema){        
+    public addDefinition(definition: Schema){
         this.definitions.push(definition);
     }
 
-    getDefinitions(){
+    public getDefinitions(){
         return this.definitions;
-    }    
+    }
 }

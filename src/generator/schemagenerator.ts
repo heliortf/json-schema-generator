@@ -1,22 +1,22 @@
 
-import { Schema, SchemaProperty } from './../schema/index';
+import { Schema, SchemaProperty } from "./../schema/index";
 
 export class SchemaGenerator {
 
     /**
-     * Return an array of 
-     * 
-     * @param schema 
+     * Return an array of
+     *
+     * @param schema
      */
-    public buildRequiredProperties(schema : Schema) : string[] {
-        if(schema.getProperties().length > 0){
+    public buildRequiredProperties(schema: Schema): string[] {
+        if (schema.getProperties().length > 0){
             // Required properties
-            let requiredProperties : SchemaProperty[] = schema.getProperties().filter((p : SchemaProperty) => {
+            const requiredProperties: SchemaProperty[] = schema.getProperties().filter((p: SchemaProperty) => {
             return p.isRequired();
             });
 
             // Map required properties
-            return requiredProperties.map((p : SchemaProperty) => {
+            return requiredProperties.map((p: SchemaProperty) => {
                 return p.getName();
             });
         }
@@ -26,46 +26,46 @@ export class SchemaGenerator {
 
     /**
      * Build property
-     * 
-     * @param p 
+     *
+     * @param p
      */
-    public buildProperty(p : SchemaProperty) {
-        let property : any = {
-            'type'      : p.getType()
+    public buildProperty(p: SchemaProperty) {
+        const property: any = {
+            type      : p.getType(),
         };
 
-        switch(p.getType()){
-            case 'object':
+        switch (p.getType()){
+            case "object":
                 break;
-            case 'string':
-                
-                if(p.getFormat() != ""){
-                    property['format'] = p.getFormat()
-                }     
+            case "string":
 
-                if(p.getMinLength() != null){
-                    property['minLength'] = p.getMinLength();
-                }           
+                if (p.getFormat() != ""){
+                    property.format = p.getFormat();
+                }
 
-                if(p.getMaxLength() != null){
-                    property['maxLength'] = p.getMaxLength();
+                if (p.getMinLength() != null){
+                    property.minLength = p.getMinLength();
+                }
+
+                if (p.getMaxLength() != null){
+                    property.maxLength = p.getMaxLength();
                 }
                 break;
-            case 'enum':                
-                if(p.getEnum().length > 0){
-                    property['enum'] = p.getEnum();                
+            case "enum":
+                if (p.getEnum().length > 0){
+                    property.enum = p.getEnum();
                 }
                 break;
-            case 'anyOf':
-                delete property['type'];
-                property['anyOf'] = this.buildSchemas(p.getAnyOf());
+            case "anyOf":
+                delete property.type;
+                property.anyOf = this.buildSchemas(p.getAnyOf());
                 break;
-            case '$ref':
-                delete property['type'];
-                property['$ref'] = '#/definitions/'+p.getRef();
+            case "$ref":
+                delete property.type;
+                property.$ref = "#/definitions/" + p.getRef();
                 break;
-            case 'array':                
-                property['items'] = this.buildProperty(p.getItems());                
+            case "array":
+                property.items = this.buildProperty(p.getItems());
                 break;
         }
 
@@ -74,24 +74,24 @@ export class SchemaGenerator {
 
     /**
      * Build the list of properties
-     * 
-     * @param schema 
+     *
+     * @param schema
      */
-    public buildProperties(schema : Schema) {
-        let self = this;
-        let properties : any = {};
-        
+    public buildProperties(schema: Schema) {
+        const self = this;
+        const properties: any = {};
+
         // Loop through properties
-        schema.getProperties().forEach((p : SchemaProperty) => {
+        schema.getProperties().forEach((p: SchemaProperty) => {
             properties[p.getName()] = self.buildProperty(p);
         });
 
         return properties;
     }
 
-    public buildSchemas(schemas : Schema[]){
-        let self = this;
-        let builtSchemas = schemas.map(function(schema : Schema){
+    public buildSchemas(schemas: Schema[]){
+        const self = this;
+        const builtSchemas = schemas.map(function(schema: Schema){
             return self.build(schema);
         });
         //console.log("Built schemas!");
@@ -99,14 +99,14 @@ export class SchemaGenerator {
         return builtSchemas;
     }
 
-    public buildDefinitions(schema : Schema){
-        let self = this;
-        let definitions : any = {};
-        
-        schema.getDefinitions().forEach((def : Schema) => {
-            let schemaDefinition = self.build(def, true);
-            delete schemaDefinition['id'];
-            delete schemaDefinition['type'];    
+    public buildDefinitions(schema: Schema){
+        const self = this;
+        const definitions: any = {};
+
+        schema.getDefinitions().forEach((def: Schema) => {
+            const schemaDefinition = self.build(def, true);
+            delete schemaDefinition.id;
+            delete schemaDefinition.type;
             /*if(def.getId() == 'facebookLikes'){
                 console.log("\n\nDEFINITION:");
                 console.log(schemaDefinition);
@@ -120,33 +120,33 @@ export class SchemaGenerator {
 
     /**
      * Generates schema JSON
-     * 
-     * @param schema 
+     *
+     * @param schema
      */
-    public build(schema : Schema, isSubSchema? : boolean) {
-        let obj : any = {            
-            "type"          : schema.getType()
+    public build(schema: Schema, isSubSchema?: boolean) {
+        const obj: any = {
+            type          : schema.getType(),
         };
 
-        if(!(typeof isSubSchema == 'boolean' && isSubSchema == true)){
-            obj["$schema"] = "http://json-schema.org/draft-06/schema#";
+        if (!(typeof isSubSchema == "boolean" && isSubSchema == true)){
+            obj.$schema = "http://json-schema.org/draft-06/schema#";
         }
 
-        if(schema.getId() != ""){
-            obj['id'] = schema.getId();
+        if (schema.getId() != ""){
+            obj.id = schema.getId();
         }
 
-        if(schema.getDescription() != ''){
-            obj['description'] = schema.getDescription();
-        }
-        
-        if(schema.getProperties().length > 0){
-            obj['required'] = this.buildRequiredProperties(schema);
-            obj['properties'] = this.buildProperties(schema);        
+        if (schema.getDescription() != ""){
+            obj.description = schema.getDescription();
         }
 
-        if(schema.getDefinitions().length > 0){
-            obj['definitions'] = this.buildDefinitions(schema); 
+        if (schema.getProperties().length > 0){
+            obj.required = this.buildRequiredProperties(schema);
+            obj.properties = this.buildProperties(schema);
+        }
+
+        if (schema.getDefinitions().length > 0){
+            obj.definitions = this.buildDefinitions(schema);
         }
 
         return obj;

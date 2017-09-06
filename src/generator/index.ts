@@ -1,1 +1,1 @@
-export * from './schemagenerator';
+export * from "./schemagenerator";

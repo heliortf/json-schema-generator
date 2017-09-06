@@ -1,73 +1,73 @@
 
-import { Schema } from './index';
+import { Schema } from "./index";
 
 export class SchemaProperty {
     /**
      * Name of the property
      */
-    name : string;
+    public name: string;
 
     /**
      * Type of the property. Can be:
-     * 
+     *
      * string | array | object
      */
-    type : string;
+    public type: string;
 
     /**
      * Indicates that the property is required
      */
-    required : boolean;
+    public required: boolean;
 
     /**
      * Array of valid strings
      */
-    enum : string[];    
+    public enum: string[];
 
     /**
      * List of schemas
      */
-    oneOf : Schema[];
+    public oneOf: Schema[];
 
     /**
      * List of schemas
      */
-    anyOf : Schema[];
+    public anyOf: Schema[];
 
     /**
      * Regex string
      */
-    pattern : string;
+    public pattern: string;
 
     /**
      * Format of the string
      */
-    format : string;
+    public format: string;
 
     /**
      * Applied to strings
      */
-    minLength : number;
+    public minLength: number;
 
     /**
      * Applied to strings
      */
-    maxLength : number;
+    public maxLength: number;
 
     /**
      * Used in array type
      */
-    items : any;
+    public items: any;
 
     /**
      * Reference to a definition
      */
-    ref : string;
+    public ref: string;
 
-    constructor(params? : any){
+    constructor(params?: any) {
         this.required = false;
         this.enum = [];
-        this.oneOf = [];        
+        this.oneOf = [];
         this.name = "";
         this.type = "string";
         this.format = "";
@@ -77,127 +77,127 @@ export class SchemaProperty {
         this.setValues(params);
     }
 
-    setValues(params : any){
-        if(typeof params != 'undefined'){
+    public setValues(params: any) {
+        if (typeof params !== "undefined"){
 
-            if(typeof params['name'] == 'string' && params['name'] != ''){
-                this.setName(params['name']);
+            if (typeof params.name === "string" && params.name !== ""){
+                this.setName(params.name);
             }
 
-            if(typeof params['format'] == 'string' && params['format'] != ''){
-                this.setFormat(params['format']);
+            if (typeof params.format === "string" && params.format !== ""){
+                this.setFormat(params.format);
             }
 
-            if(typeof params['minLength'] == 'number' && params['minLength'] >= 0){
-                this.setMinLength(params['minLength']);
+            if (typeof params.minLength === "number" && params.minLength >= 0){
+                this.setMinLength(params.minLength);
             }
 
-            if(typeof params['maxLength'] == 'number' && params['maxLength'] > 0){
-                this.setMaxLength(params['maxLength']);
+            if (typeof params.maxLength === "number" && params.maxLength > 0){
+                this.setMaxLength(params.maxLength);
             }
 
-            if(typeof params['type'] == 'string' && params['type'] != ''){
-                this.setType(params['type']);
+            if (typeof params.type === "string" && params.type !== ""){
+                this.setType(params.type);
             }
 
-            if(typeof params['required'] == 'boolean'){
-                this.setRequired(params['required']);
+            if (typeof params.required === "boolean"){
+                this.setRequired(params.required);
             }
 
-            if(typeof params['anyOf'] == 'object' && params['anyOf'] instanceof Array){
-                this.setType('anyOf');
-                this.setAnyOf(params['anyOf'])
+            if (typeof params.anyOf === "object" && params.anyOf instanceof Array){
+                this.setType("anyOf");
+                this.setAnyOf(params.anyOf);
             }
 
-            if(typeof params['$ref'] == 'string' && params['$ref'] != ''){
-                this.setType('$ref');
-                this.setRef(params['$ref']);                
+            if (typeof params.$ref === "string" && params.$ref !== ""){
+                this.setType("$ref");
+                this.setRef(params.$ref);
             }
 
-            if(typeof params['items'] == 'object' && Object.keys(params['items']).length > 0){
-                this.setType('array');
-                this.setItems(new SchemaProperty(params['items']));
+            if (typeof params.items === "object" && Object.keys(params.items).length > 0){
+                this.setType("array");
+                this.setItems(new SchemaProperty(params.items));
             }
         }
     }
 
-    setName(name : string){
+    public setName(name: string){
         this.name = name;
     }
 
-    getName(){
+    public getName(){
         return this.name;
     }
 
-    setType(type : string, enumValues? : string[]){
+    public setType(type: string, enumValues?: string[]){
         this.type = type;
 
-        if(type == 'enum' && typeof enumValues != 'undefined'){
+        if (type == "enum" && typeof enumValues != "undefined"){
             this.enum = enumValues;
         }
     }
-    
-    getType(){
+
+    public getType(){
         return this.type;
     }
 
-    setRequired(required : boolean){
+    public setRequired(required: boolean){
         this.required = required;
     }
 
-    isRequired(){
+    public isRequired(){
         return this.required;
     }
 
-    setFormat(format : string){
+    public setFormat(format: string){
         this.format = format;
     }
 
-    getFormat(){
+    public getFormat(){
         return this.format;
     }
 
-    setMinLength(length : number){
+    public setMinLength(length: number){
         this.minLength = length;
     }
 
-    getMinLength(){
+    public getMinLength(){
         return this.minLength;
     }
 
-    setMaxLength(length : number){
+    public setMaxLength(length: number){
         this.maxLength = length;
     }
 
-    getMaxLength(){
+    public getMaxLength(){
         return this.maxLength;
     }
 
-    getEnum(){
+    public getEnum(){
         return this.enum;
     }
 
-    setAnyOf(schemas : Schema[]){
+    public setAnyOf(schemas: Schema[]){
         this.anyOf = schemas;
     }
 
-    getAnyOf(){
+    public getAnyOf(){
         return this.anyOf;
     }
 
-    getRef(){
+    public getRef(){
         return this.ref;
     }
 
-    setRef(ref : string){
+    public setRef(ref: string){
         this.ref = ref;
     }
 
-    setItems(items : any){
+    public setItems(items: any){
         this.items = items;
     }
 
-    getItems(){
+    public getItems(){
         return this.items;
     }
 }
