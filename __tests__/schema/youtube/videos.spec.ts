@@ -13,12 +13,12 @@ describe("YouTube Videos Json Schema", () => {
     it("should initialize the basics", () => {
         s = new Schema();
 
-        s.setId("youtubeChannels");
-        s.setDescription("Youtube channels api response");
+        s.setId("youtubeVideos");
+        s.setDescription("Youtube videos api response");
         s.setType("object");
 
-        expect(s.getId()).toBe("youtubeChannels");
-        expect(s.getDescription()).toBe("Youtube channels api response");
+        expect(s.getId()).toBe("youtubeVideos");
+        expect(s.getDescription()).toBe("Youtube videos api response");
         expect(s.getType()).toBe("object");
         expect(s.getProperties()).toHaveLength(0);
         expect(s.getDefinitions()).toHaveLength(0);        
@@ -35,26 +35,32 @@ describe("YouTube Videos Json Schema", () => {
 
     it("should add thumbnails definition", () => {
         let stn : Schema = new Schema();
-        stn.setId('youtubeChannelThumbnails');
+        stn.setId('youtubeVideoThumbnails');
         stn.addProperty({ 
             name : 'default', 
             type: "object", 
             properties : {
-                url : { type : "string", format: "url", required: true }
+                url : { type : "string", format: "url", required: true },
+                width: { type : "number", required: true },
+                height: { type : "number", required: true }
             }
         });
         stn.addProperty({ 
             name : 'medium', 
             type: "object", 
             properties : {
-                url : { type : "string", format: "url", required: true }
+                url : { type : "string", format: "url", required: true },
+                width: { type : "number", required: true },
+                height: { type : "number", required: true }
             }
         });
         stn.addProperty({ 
             name : 'high', 
             type: "object", 
             properties : {
-                url : { type : "string", format: "url", required: true }
+                url : { type : "string", format: "url", required: true },
+                width: { type : "number", required: true },
+                height: { type : "number", required: true }
             }
         });
 
@@ -74,15 +80,20 @@ describe("YouTube Videos Json Schema", () => {
     });
 
     it("should add snippet definition", () => {       
-        // Channel Snippet Schema
+        // Video Snippet Schema
         let snp : Schema = new Schema();
-        snp.setId('youtubeChannelSnippet');
+        snp.setId('youtubeVideoSnippet');
         snp.setType('object');
         snp.addProperty({ name: "title", type: "string", minLength: 2, maxLength: 255, required : true });        
         snp.addProperty({ name: "description", type: "string", required : true });        
-        snp.addProperty({ name: "customUrl", type: "string", minLength: 2, required : false });        
+        //snp.addProperty({ name: "customUrl", type: "string", minLength: 2, required : false });        
         snp.addProperty({ name: "publishedAt", type: "string", required : true });
-        snp.addProperty({ name: "thumbnails", "$ref" : "youtubeChannelThumbnails"})
+        snp.addProperty({ name: "liveBroadcastContent", type: "string", required : true });
+        snp.addProperty({ name: "channelId", type: "string", required : true });
+        snp.addProperty({ name: "channelTitle", type: "string", required : true });
+        snp.addProperty({ name: "tags", type: "array", items: { type: "string" }, required : true });
+        snp.addProperty({ name: "categoryId", type: "string", required : true });
+        snp.addProperty({ name: "thumbnails", "$ref" : "youtubeVideoThumbnails"})
         snp.addProperty({ name: "localized", "$ref" : "youtubeLocalized" });
 
         // Add as definition
@@ -91,67 +102,40 @@ describe("YouTube Videos Json Schema", () => {
 
     it("should add channel content details definition", () => {
         let scrp : Schema = new Schema({ 
-            id : 'youtubeChannelContentDetails', 
+            id : 'youtubeVideoContentDetails', 
             type : 'object',
             properties : {
-                uploads : { type : "string" , required: true },
-                watchHistory : { type : "string" , required: true },
-                watchlater : { type : "string" , required: true }
+                duration : { type : "string" , required: true },
+                dimension : { type : "string" , required: true },
+                definition : { type : "string" , required: true },
+                caption : { type : "string" , required: true },
+                licensedContent : { type : "string" , required: true },
+                projection : { type : "string" , required: true }
             }
         });
         // Add as definition
         s.addDefinition(scrp);
-
-        let scd : Schema = new Schema();
-        scd.setId('youtubeChannelContentDetails');
-        scd.setType('object');
-        scd.addProperty({ name : 'relatedPlayLists', '$ref' : 'youtubeChannelRelatedPlaylists' });
-
-        s.addDefinition(scd)        
     });
 
 
-    it("should add channel statistics definition", () => {
-        let st : Schema = new Schema();
-        st.setId('youtubeChannelStatistics');
-        st.setType('object');
-        st.addProperty({ name : 'viewCount', type: 'string', required: true });
-        st.addProperty({ name: 'commentCount', type: 'string', required: true });
-        st.addProperty({ name: 'subscriberCount', type: 'string', required: true });
-        st.addProperty({ name: 'hiddenSubscriberCount', type: 'boolean', required: true });
-        st.addProperty({ name: 'videoCount', type: 'string', required: true });
-
-        s.addDefinition(st);
-    })
-
-    it("should add topic details definition", () => {
-        let std : Schema = new Schema();
-        std.setId('youtubeChannelTopicDetails');
-        std.setType('object');
-        std.addProperty({ name : 'topicIds', type: 'array', items : { type : 'string' }, required: true});
-        std.addProperty({ name : 'topicCategories', type: 'array', items : { type: 'string', 'format' : 'url' }, required: true});
-
-        s.addDefinition(std);        
-    })
-
     it("should add branding settings definition", () => {
         let scd : Schema = new Schema();
-        scd.setId('youtubeChannelDetails');
+        scd.setId('youtubeVideoDetails');
         scd.setType('object');
         scd.addProperty({ name : 'title', type: 'string', required: true });
         scd.addProperty({ name : 'description', type: 'string', required: false });
         scd.addProperty({ name : 'keywords', type: 'string', required: false });
-        scd.addProperty({ name : 'showRelatedChannels', type: 'boolean', required: false });
+        scd.addProperty({ name : 'showRelatedVideos', type: 'boolean', required: false });
         scd.addProperty({ name : 'showBrowseView', type: 'boolean', required: true });
-        scd.addProperty({ name : 'featuredChannelsTitle', type: 'string', required: false });
-        scd.addProperty({ name : 'featuredChannelsUrls', type: 'array', items : { type : 'string' }, required: false});
+        scd.addProperty({ name : 'featuredVideosTitle', type: 'string', required: false });
+        scd.addProperty({ name : 'featuredVideosUrls', type: 'array', items : { type : 'string' }, required: false});
         scd.addProperty({ name : 'unsubscribedTrailer', type: 'string', required: false });
         scd.addProperty({ name : 'profileColor', type: 'string', required: false });
         scd.addProperty({ name : 'country', type: 'string', required: false });
         s.addDefinition(scd);
 
         let sci : Schema = new Schema();
-        sci.setId('youtubeChannelImages');
+        sci.setId('youtubeVideoImages');
         sci.setType('object');
         sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
         sci.addProperty({ name : 'bannerMobileImageUrl', type: 'string', 'format' : 'url', required: true });
@@ -170,40 +154,40 @@ describe("YouTube Videos Json Schema", () => {
         s.addDefinition(sci);
 
         let sch : Schema = new Schema();
-        sch.setId('youtubeChannelHint');
+        sch.setId('youtubeVideoHint');
         sch.setType('object');
         sch.addProperty({ name : 'property', type: 'string', 'required' : true });
         sch.addProperty({ name : 'value', type: 'string', 'required' : true });
         s.addDefinition(sch);
 
         let sbs : Schema = new Schema();
-        sbs.setId('youtubeChannelBrandingSettings');
+        sbs.setId('youtubeVideoBrandingSettings');
         sbs.setType('object');
-        sbs.addProperty({ name : 'channel', "$ref" : "youtubeChannelDetails" });
-        sbs.addProperty({ name : 'image', "$ref" : "youtubeChannelImages" });
-        sbs.addProperty({ name : 'hints', type: "array", items: { "$ref" : "youtubeChannelHint" } });
+        sbs.addProperty({ name : 'channel', "$ref" : "youtubeVideoDetails" });
+        sbs.addProperty({ name : 'image', "$ref" : "youtubeVideoImages" });
+        sbs.addProperty({ name : 'hints', type: "array", items: { "$ref" : "youtubeVideoHint" } });
         s.addDefinition(sbs);
     })
 
 
     it("should add channel definition", () => {
-        // Channel schema
+        // Video schema
         let su : Schema = new Schema();
-        su.setId('youtubeChannel');
+        su.setId('youtubeVideo');
         su.addProperty({ name: "kind", type: "string", required: true });
         su.addProperty({ name: "etag" , type: "string", required: true });
         su.addProperty({ name: "id" , type: "string", required: true });        
-        su.addProperty({ name: "snippet" , "$ref": "youtubeChannelSnippet", required: true });        
-        su.addProperty({ name: "statistics" , "$ref": "youtubeChannelStatistics", required: true });  
-        su.addProperty({ name: "topicDetails" , "$ref": "youtubeChannelTopicDetails", required: true });              
-        su.addProperty({ name: "brandingSettings", "$ref" : "youtubeChannelBrandingSettings", required: true });
+        su.addProperty({ name: "snippet" , "$ref": "youtubeVideoSnippet", required: true });        
+        su.addProperty({ name: "statistics" , "$ref": "youtubeVideoStatistics", required: true });  
+        su.addProperty({ name: "topicDetails" , "$ref": "youtubeVideoTopicDetails", required: true });              
+        su.addProperty({ name: "brandingSettings", "$ref" : "youtubeVideoBrandingSettings", required: true });
 
         // Add as definition
         s.addDefinition(su);                
     });
 
     it("should add root schema properties", () => {
-        s.addProperty({ name: "items", type: "array", items : { "$ref" : "youtubeChannel" }, required : true });
+        s.addProperty({ name: "items", type: "array", items : { "$ref" : "youtubeVideo" }, required : true });
         s.addProperty({ name: "pageInfo", "$ref" : "youtubePageInfo", required: true });
     });
 
@@ -215,7 +199,7 @@ describe("YouTube Videos Json Schema", () => {
         console.log(JSON.stringify(objSchema));
         console.log("\n\n");*/
 
-        expect(objSchema['id']).toBe("youtubeChannels");
+        expect(objSchema['id']).toBe("youtubeVideos");
         expect(objSchema['type']).toBe("object");
         expect(objSchema['properties']['items']).toBeDefined();
         expect(objSchema['properties']['pageInfo']).toBeDefined();
@@ -241,9 +225,9 @@ describe("YouTube Videos Json Schema", () => {
     });
 
     it("should validate against real youtube data", () => {
-        let channels = require('./data/channels.json');
-        expect(channels.items).toHaveLength(30);
-        let valid = compiledSchema(channels);
+        let videos = require('./data/videos.json');
+        expect(videos.items).toHaveLength(30);
+        let valid = compiledSchema(videos);
 
         if(!valid){            
             console.log(compiledSchema.errors);            
