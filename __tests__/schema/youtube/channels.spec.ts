@@ -79,8 +79,8 @@ describe("YouTube Channels Json Schema", () => {
         snp.setId('youtubeChannelSnippet');
         snp.setType('object');
         snp.addProperty({ name: "title", type: "string", minLength: 2, maxLength: 255, required : true });        
-        snp.addProperty({ name: "description", type: "string", minLength: 2, required : true });        
-        snp.addProperty({ name: "customUrl", type: "string", minLength: 2, required : true });        
+        snp.addProperty({ name: "description", type: "string", required : true });        
+        snp.addProperty({ name: "customUrl", type: "string", minLength: 2, required : false });        
         snp.addProperty({ name: "publishedAt", type: "string", required : true });
         snp.addProperty({ name: "thumbnails", "$ref" : "youtubeChannelThumbnails"})
         snp.addProperty({ name: "localized", "$ref" : "youtubeLocalized" });
@@ -115,11 +115,11 @@ describe("YouTube Channels Json Schema", () => {
         let st : Schema = new Schema();
         st.setId('youtubeChannelStatistics');
         st.setType('object');
-        st.addProperty({ name : 'viewCount', type: 'number', required: true });
-        st.addProperty({ name: 'commentCount', type: 'number', required: true });
-        st.addProperty({ name: 'subscriberCount', type: 'number', required: true });
+        st.addProperty({ name : 'viewCount', type: 'string', required: true });
+        st.addProperty({ name: 'commentCount', type: 'string', required: true });
+        st.addProperty({ name: 'subscriberCount', type: 'string', required: true });
         st.addProperty({ name: 'hiddenSubscriberCount', type: 'boolean', required: true });
-        st.addProperty({ name: 'videoCount', type: 'number', required: true });
+        st.addProperty({ name: 'videoCount', type: 'string', required: true });
 
         s.addDefinition(st);
     })
@@ -139,34 +139,50 @@ describe("YouTube Channels Json Schema", () => {
         scd.setId('youtubeChannelDetails');
         scd.setType('object');
         scd.addProperty({ name : 'title', type: 'string', required: true });
-        scd.addProperty({ name : 'description', type: 'string', required: true });
-        scd.addProperty({ name : 'keywords', type: 'string', required: true });
-        scd.addProperty({ name : 'showRelatedChannels', type: 'boolean', required: true });
+        scd.addProperty({ name : 'description', type: 'string', required: false });
+        scd.addProperty({ name : 'keywords', type: 'string', required: false });
+        scd.addProperty({ name : 'showRelatedChannels', type: 'boolean', required: false });
         scd.addProperty({ name : 'showBrowseView', type: 'boolean', required: true });
-        scd.addProperty({ name : 'featuredChannelsTitle', type: 'string', required: true });
-        scd.addProperty({ name : 'featuredChannelsUrls', type: 'array', items : { type : 'string' }, required: true});
-        scd.addProperty({ name : 'unsubscribedTrailer', type: 'string', required: true });
-        scd.addProperty({ name : 'profileColor', type: 'string', required: true });
-        scd.addProperty({ name : 'country', type: 'string', required: true });
+        scd.addProperty({ name : 'featuredChannelsTitle', type: 'string', required: false });
+        scd.addProperty({ name : 'featuredChannelsUrls', type: 'array', items : { type : 'string' }, required: false});
+        scd.addProperty({ name : 'unsubscribedTrailer', type: 'string', required: false });
+        scd.addProperty({ name : 'profileColor', type: 'string', required: false });
+        scd.addProperty({ name : 'country', type: 'string', required: false });
         s.addDefinition(scd);
 
         let sci : Schema = new Schema();
         sci.setId('youtubeChannelImages');
         sci.setType('object');
         sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerMobileImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerTabletLowImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerTabletImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerTabletHdImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerTabletExtraHdImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerMobileLowImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerMobileMediumHdImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerMobileHdImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerMobileExtraHdImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerTvImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerTvLowImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerTvMediumImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerTvHighImageUrl', type: 'string', 'format' : 'url', required: true });
         s.addDefinition(sci);
+
+        let sch : Schema = new Schema();
+        sch.setId('youtubeChannelHint');
+        sch.setType('object');
+        sch.addProperty({ name : 'property', type: 'string', 'required' : true });
+        sch.addProperty({ name : 'value', type: 'string', 'required' : true });
+        s.addDefinition(sch);
 
         let sbs : Schema = new Schema();
         sbs.setId('youtubeChannelBrandingSettings');
         sbs.setType('object');
         sbs.addProperty({ name : 'channel', "$ref" : "youtubeChannelDetails" });
+        sbs.addProperty({ name : 'image', "$ref" : "youtubeChannelImages" });
+        sbs.addProperty({ name : 'hints', type: "array", items: { "$ref" : "youtubeChannelHint" } });
+        s.addDefinition(sbs);
     })
 
 
@@ -183,42 +199,40 @@ describe("YouTube Channels Json Schema", () => {
         su.addProperty({ name: "brandingSettings", "$ref" : "youtubeChannelBrandingSettings", required: true });
 
         // Add as definition
-        s.addDefinition(su);        
-
-        
+        s.addDefinition(su);                
     });
 
     it("should add root schema properties", () => {
-        s.addProperty({ name: "data", type: "array", items : { "$ref" : "facebookComment" }, required : true });
-        s.addProperty({ name: "paging", "$ref" : "facebookPaging", required: true });
+        s.addProperty({ name: "items", type: "array", items : { "$ref" : "youtubeChannel" }, required : true });
+        s.addProperty({ name: "pageInfo", "$ref" : "youtubePageInfo", required: true });
     });
 
     it("should generate schema and validate data", () => {
 
         
         objSchema = generator.build(s);
-        console.log("POSTS SCHEMA:\n\n");
+        /*console.log("CHANNELS SCHEMA:\n\n");
         console.log(JSON.stringify(objSchema));
-        console.log("\n\n");
+        console.log("\n\n");*/
 
-        expect(objSchema['id']).toBe("facebookComments");
+        expect(objSchema['id']).toBe("youtubeChannels");
         expect(objSchema['type']).toBe("object");
-        expect(objSchema['properties']['data']).toBeDefined();
-        expect(objSchema['properties']['paging']).toBeDefined();
+        expect(objSchema['properties']['items']).toBeDefined();
+        expect(objSchema['properties']['pageInfo']).toBeDefined();
 
         let defs = objSchema['definitions'];
         
         /**
          * Facebook Comments
          */
-        let defComment = objSchema['definitions']['facebookComment'];
+        /*let defComment = objSchema['definitions']['facebookComment'];
 
         // Expect that the following fields are required
         expect(defComment.required).toEqual(expect.arrayContaining(['message', 'id', 'created_time']));
 
         // Expect that the message field has minLength and maxLength
         expect(defComment.properties.message.minLength).toBe(2);
-        expect(defComment.properties.message.maxLength).toBeGreaterThan(100);
+        expect(defComment.properties.message.maxLength).toBeGreaterThan(100);*/
 
         //console.log(objSchema);
         compiledSchema  = ajv.compile(objSchema);      
@@ -226,10 +240,10 @@ describe("YouTube Channels Json Schema", () => {
         expect(typeof compiledSchema == 'function').toBe(true);
     });
 
-    it("should validate against real facebook data", () => {
-        let posts = require('./data/comments.json');
-        expect(posts.data).toHaveLength(7);
-        let valid = compiledSchema(posts);
+    it("should validate against real youtube data", () => {
+        let channels = require('./data/channels.json');
+        expect(channels.items).toHaveLength(30);
+        let valid = compiledSchema(channels);
 
         if(!valid){            
             console.log(compiledSchema.errors);            
