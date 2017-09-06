@@ -8,7 +8,7 @@ export class SchemaGenerator {
      * 
      * @param schema 
      */
-    buildRequiredProperties(schema : Schema) : string[] {
+    public buildRequiredProperties(schema : Schema) : string[] {
         if(schema.getProperties().length > 0){
             // Required properties
             let requiredProperties : SchemaProperty[] = schema.getProperties().filter((p : SchemaProperty) => {
@@ -29,7 +29,7 @@ export class SchemaGenerator {
      * 
      * @param p 
      */
-    buildProperty(p : SchemaProperty) {
+    public buildProperty(p : SchemaProperty) {
         let property : any = {
             'type'      : p.getType()
         };
@@ -77,7 +77,7 @@ export class SchemaGenerator {
      * 
      * @param schema 
      */
-    buildProperties(schema : Schema) {
+    public buildProperties(schema : Schema) {
         let self = this;
         let properties : any = {};
         
