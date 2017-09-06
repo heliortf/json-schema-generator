@@ -17,12 +17,13 @@
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$"
   },
-  "dependencies": {
+  "dependencies": {    
     "ajv": "^5.2.2"
   },
   "private": true,
   "devDependencies": {
     "@types/node": "^8.0.19",
+    "@types/jest": "^20.0.8",
     "jest": "^20.0.4",
     "ts-jest": "^20.0.13",
     "typescript": "^2.4.2"

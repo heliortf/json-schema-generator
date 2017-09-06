@@ -107,8 +107,68 @@ describe("YouTube Channels Json Schema", () => {
         scd.setType('object');
         scd.addProperty({ name : 'relatedPlayLists', '$ref' : 'youtubeChannelRelatedPlaylists' });
 
-        s.addDefinition(scd);
+        s.addDefinition(scd)        
     });
+
+
+    it("should add channel statistics definition", () => {
+        let st : Schema = new Schema();
+        st.setId('youtubeChannelStatistics');
+        st.setType('object');
+        st.addProperty({ name : 'viewCount', type: 'number', required: true });
+        st.addProperty({ name: 'commentCount', type: 'number', required: true });
+        st.addProperty({ name: 'subscriberCount', type: 'number', required: true });
+        st.addProperty({ name: 'hiddenSubscriberCount', type: 'boolean', required: true });
+        st.addProperty({ name: 'videoCount', type: 'number', required: true });
+
+        s.addDefinition(st);
+    })
+
+    it("should add topic details definition", () => {
+        let std : Schema = new Schema();
+        std.setId('youtubeChannelTopicDetails');
+        std.setType('object');
+        std.addProperty({ name : 'topicIds', type: 'array', items : { type : 'string' }, required: true});
+        std.addProperty({ name : 'topicCategories', type: 'array', items : { type: 'string', 'format' : 'url' }, required: true});
+
+        s.addDefinition(std);        
+    })
+
+    it("should add branding settings definition", () => {
+        let scd : Schema = new Schema();
+        scd.setId('youtubeChannelDetails');
+        scd.setType('object');
+        scd.addProperty({ name : 'title', type: 'string', required: true });
+        scd.addProperty({ name : 'description', type: 'string', required: true });
+        scd.addProperty({ name : 'keywords', type: 'string', required: true });
+        scd.addProperty({ name : 'showRelatedChannels', type: 'boolean', required: true });
+        scd.addProperty({ name : 'showBrowseView', type: 'boolean', required: true });
+        scd.addProperty({ name : 'featuredChannelsTitle', type: 'string', required: true });
+        scd.addProperty({ name : 'featuredChannelsUrls', type: 'array', items : { type : 'string' }, required: true});
+        scd.addProperty({ name : 'unsubscribedTrailer', type: 'string', required: true });
+        scd.addProperty({ name : 'profileColor', type: 'string', required: true });
+        scd.addProperty({ name : 'country', type: 'string', required: true });
+        s.addDefinition(scd);
+
+        let sci : Schema = new Schema();
+        sci.setId('youtubeChannelImages');
+        sci.setType('object');
+        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
+        s.addDefinition(sci);
+
+        let sbs : Schema = new Schema();
+        sbs.setId('youtubeChannelBrandingSettings');
+        sbs.setType('object');
+        sbs.addProperty({ name : 'channel', "$ref" : "youtubeChannelDetails" });
+    })
+
 
     it("should add channel definition", () => {
         // Channel schema
@@ -118,12 +178,12 @@ describe("YouTube Channels Json Schema", () => {
         su.addProperty({ name: "etag" , type: "string", required: true });
         su.addProperty({ name: "id" , type: "string", required: true });        
         su.addProperty({ name: "snippet" , "$ref": "youtubeChannelSnippet", required: true });        
+        su.addProperty({ name: "statistics" , "$ref": "youtubeChannelStatistics", required: true });  
+        su.addProperty({ name: "topicDetails" , "$ref": "youtubeChannelTopicDetails", required: true });              
+        su.addProperty({ name: "brandingSettings", "$ref" : "youtubeChannelBrandingSettings", required: true });
 
         // Add as definition
-        s.addDefinition(su);
-
-
-        
+        s.addDefinition(su);        
 
         
     });

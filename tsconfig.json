@@ -7,6 +7,7 @@
         //"outFile": "./build/index.js",
         "outDir" : "./build/",
         "sourceMap": false,
+        "skipLibCheck": true,
         "target" : "es2015"
     },
     "include": [
