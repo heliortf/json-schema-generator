@@ -1,2 +1,7 @@
-# json-schema-generator
-A json schema generator
+# json-schema-generator  
+  
+ 
+Libraries:  
+* ajv  
+* jest  
+* typescript  
