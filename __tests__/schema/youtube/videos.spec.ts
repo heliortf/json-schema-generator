@@ -109,7 +109,7 @@ describe("YouTube Videos Json Schema", () => {
                 dimension : { type : "string" , required: true },
                 definition : { type : "string" , required: true },
                 caption : { type : "string" , required: true },
-                licensedContent : { type : "string" , required: true },
+                licensedContent : { type : "boolean" , required: true },
                 projection : { type : "string" , required: true }
             }
         });
@@ -117,58 +117,18 @@ describe("YouTube Videos Json Schema", () => {
         s.addDefinition(scrp);
     });
 
-
-    it("should add branding settings definition", () => {
-        let scd : Schema = new Schema();
-        scd.setId('youtubeVideoDetails');
-        scd.setType('object');
-        scd.addProperty({ name : 'title', type: 'string', required: true });
-        scd.addProperty({ name : 'description', type: 'string', required: false });
-        scd.addProperty({ name : 'keywords', type: 'string', required: false });
-        scd.addProperty({ name : 'showRelatedVideos', type: 'boolean', required: false });
-        scd.addProperty({ name : 'showBrowseView', type: 'boolean', required: true });
-        scd.addProperty({ name : 'featuredVideosTitle', type: 'string', required: false });
-        scd.addProperty({ name : 'featuredVideosUrls', type: 'array', items : { type : 'string' }, required: false});
-        scd.addProperty({ name : 'unsubscribedTrailer', type: 'string', required: false });
-        scd.addProperty({ name : 'profileColor', type: 'string', required: false });
-        scd.addProperty({ name : 'country', type: 'string', required: false });
-        s.addDefinition(scd);
-
-        let sci : Schema = new Schema();
-        sci.setId('youtubeVideoImages');
-        sci.setType('object');
-        sci.addProperty({ name : 'bannerImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerMobileImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerTabletLowImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerTabletImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerTabletHdImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerTabletExtraHdImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerMobileLowImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerMobileMediumHdImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerMobileHdImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerMobileExtraHdImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerTvImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerTvLowImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerTvMediumImageUrl', type: 'string', 'format' : 'url', required: true });
-        sci.addProperty({ name : 'bannerTvHighImageUrl', type: 'string', 'format' : 'url', required: true });
-        s.addDefinition(sci);
-
-        let sch : Schema = new Schema();
-        sch.setId('youtubeVideoHint');
-        sch.setType('object');
-        sch.addProperty({ name : 'property', type: 'string', 'required' : true });
-        sch.addProperty({ name : 'value', type: 'string', 'required' : true });
-        s.addDefinition(sch);
-
-        let sbs : Schema = new Schema();
-        sbs.setId('youtubeVideoBrandingSettings');
-        sbs.setType('object');
-        sbs.addProperty({ name : 'channel', "$ref" : "youtubeVideoDetails" });
-        sbs.addProperty({ name : 'image', "$ref" : "youtubeVideoImages" });
-        sbs.addProperty({ name : 'hints', type: "array", items: { "$ref" : "youtubeVideoHint" } });
-        s.addDefinition(sbs);
-    })
-
+    
+    it("should add video player", () => {
+        let svp : Schema = new Schema({ 
+            id : 'youtubeVideoPlayer', 
+            type : 'object',
+            properties : {
+                embedHtml : { type : "string" , required: true }
+            }
+        });
+        // Add as definition
+        s.addDefinition(svp);
+    });
 
     it("should add channel definition", () => {
         // Video schema
@@ -178,9 +138,8 @@ describe("YouTube Videos Json Schema", () => {
         su.addProperty({ name: "etag" , type: "string", required: true });
         su.addProperty({ name: "id" , type: "string", required: true });        
         su.addProperty({ name: "snippet" , "$ref": "youtubeVideoSnippet", required: true });        
-        su.addProperty({ name: "statistics" , "$ref": "youtubeVideoStatistics", required: true });  
-        su.addProperty({ name: "topicDetails" , "$ref": "youtubeVideoTopicDetails", required: true });              
-        su.addProperty({ name: "brandingSettings", "$ref" : "youtubeVideoBrandingSettings", required: true });
+        su.addProperty({ name: "contentDetails" , "$ref": "youtubeVideoContentDetails", required: true });  
+        su.addProperty({ name: "player" , "$ref": "youtubeVideoPlayer", required: true });                     
 
         // Add as definition
         s.addDefinition(su);                
@@ -195,9 +154,9 @@ describe("YouTube Videos Json Schema", () => {
 
         
         objSchema = generator.build(s);
-        /*console.log("CHANNELS SCHEMA:\n\n");
+        console.log("VIDEOS SCHEMA:\n\n");
         console.log(JSON.stringify(objSchema));
-        console.log("\n\n");*/
+        console.log("\n\n");
 
         expect(objSchema['id']).toBe("youtubeVideos");
         expect(objSchema['type']).toBe("object");
@@ -226,7 +185,7 @@ describe("YouTube Videos Json Schema", () => {
 
     it("should validate against real youtube data", () => {
         let videos = require('./data/videos.json');
-        expect(videos.items).toHaveLength(30);
+        expect(videos.items).toHaveLength(5);
         let valid = compiledSchema(videos);
 
         if(!valid){            

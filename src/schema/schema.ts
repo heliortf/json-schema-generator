@@ -56,6 +56,9 @@ export class Schema {
                 const keys = Object.keys(params.properties);
 
                 const properties = keys.forEach((key: string) => {
+                    //console.log("Key = "+key);
+                    let property = params.properties[key];
+                    property.name = key;
                     self.addProperty(params.properties[key]);
                 });
             }
